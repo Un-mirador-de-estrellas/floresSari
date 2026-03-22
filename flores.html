@@ -306,13 +306,13 @@
     const origins = ['bottom','top','left','right'];
 
     // AQUÍ ESTÁ LA MAGIA: 150 tallos, pero mucho más espaciados en el tiempo
-    for(let i=0;i<150;i++){
+    for(let i=0;i<250;i++){
       setTimeout(()=>{
         const x = Math.random()*window.innerWidth;
         const origin = origins[Math.floor(Math.random()*origins.length)];
         const scale = Math.random()*0.8 + 0.6;
         createPlant(x, origin, scale);
-      }, i * 350); // Aumentado a 350ms. Tomará casi un minuto llenar la pantalla.
+      }, i * 550); // Aumentado a 350ms. Tomará casi un minuto llenar la pantalla.
     }
 
     let pos = 0;
