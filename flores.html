@@ -1,155 +1,4 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Flores para mi hermsoa Sari 🌸</title>
-  <style>
-    body {
-      margin: 0;
-      overflow: hidden;
-      background-color: #ff69b4;
-      background-image: linear-gradient(180deg, #ff69b4, #ffc0cb);
-      font-family: 'Arial', sans-serif;
-      text-align: center;
-    }
-
-    h1 {
-      position: absolute;
-      width: 100%;
-      top: 20px;
-      color: white;
-      font-size: 2em;
-    }
-
-    .fall {
-      position: absolute;
-      font-size: 25px;
-      animation: fall linear infinite;
-    }
-
-    @keyframes fall {
-      0% { transform: translateY(-50px); opacity: 1; }
-      100% { transform: translateY(100vh); opacity: 0; }
-    }
-
-    .plant {
-      position: absolute;
-      width: 4px;
-      background: green;
-      height: 0;
-      transition: height 2s, width 2s;
-    }
-
-    .flower-head {
-      position: absolute;
-      font-size: 30px;
-      transform: scale(0);
-      transition: transform 0.6s;
-      animation: glow 2s infinite alternate;
-    }
-
-    @keyframes glow {
-      from { filter: drop-shadow(0 0 5px yellow); }
-      to { filter: drop-shadow(0 0 20px gold); }
-    }
-
-    .spark {
-      position: absolute;
-      width: 4px;
-      height: 4px;
-      background: gold;
-      border-radius: 50%;
-      animation: spark 1s linear forwards;
-    }
-
-    @keyframes spark {
-      to {
-        transform: translate(var(--x), var(--y));
-        opacity: 0;
-      }
-    }
-
-    .firework {
-      position: absolute;
-      width: 6px;
-      height: 6px;
-      background: yellow;
-      border-radius: 50%;
-      animation: explode 1s ease-out forwards;
-    }
-
-    @keyframes explode {
-      to {
-        transform: translate(var(--x), var(--y));
-        opacity: 0;
-      }
-    }
-
-    .cat {
-      position: absolute;
-      bottom: 0;
-      font-size: 60px;
-      left: -100px;
-    }
-
-    #btn {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      padding: 15px 25px;
-      font-size: 1.2em;
-      background: #ff1493;
-      color: white;
-      border: none;
-      border-radius: 15px;
-      cursor: pointer;
-    }
-
-    .popup {
-      position: fixed;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      background: white;
-      color: black;
-      padding: 20px;
-      border-radius: 20px;
-      width: 80%;
-      max-width: 300px;
-      display: none;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-      z-index: 10;
-      white-space: pre-line;
-    }
-
-    .popup button {
-      margin-top: 15px;
-      padding: 10px;
-      border: none;
-      background: #ff69b4;
-      color: white;
-      border-radius: 10px;
-    }
-  </style>
-</head>
-<body>
-
-<button id="btn">Ábrelo mi vida hermosa 💌</button>
-<h1 id="title"></h1>
-
-<div class="cat" id="cat">🐱</div>
-
-<div class="popup" id="popup">
-  <span id="letterText"></span>
-  <button onclick="closePopup()">Cerrar</button>
-</div>
-
-<audio id="music" src="prueba.mp3"></audio>
-
-<script>
-  const btn = document.getElementById('btn');
+const btn = document.getElementById('btn');
   const title = document.getElementById('title');
   const cat = document.getElementById('cat');
   const music = document.getElementById('music');
@@ -191,7 +40,7 @@
   }
 
   function createSpark(x, y) {
-    for (let i = 0; i < 10; i++) {
+    for (let i = 0; i < 8; i++) { // Reducido un poco para mejor rendimiento
       const s = document.createElement('div');
       s.classList.add('spark');
       s.style.left = x + 'px';
@@ -204,7 +53,7 @@
   }
 
   function createFirework(x, y) {
-    for (let i = 0; i < 25; i++) {
+    for (let i = 0; i < 20; i++) {
       const fw = document.createElement('div');
       fw.classList.add('firework');
       fw.style.left = x + 'px';
@@ -232,9 +81,10 @@
       document.body.appendChild(flower);
 
       setTimeout(()=> flower.style.transform = 'scale(1)', 100);
-
-      createSpark(x, y);
     }
+    // ¡CORRECCIÓN CLAVE!: Movemos las chispas fuera del bucle de las 12 flores. 
+    // Ahora solo se crean una vez por ramo, no 12 veces por ramo.
+    createSpark(x, y);
   }
 
   function createPlant(x, origin, scale=1) {
@@ -292,22 +142,21 @@
   btn.onclick = () => {
     btn.style.display = 'none';
     typeName('Para Sari 💛');
-    music.play();
+    
+    // Reproducir música (asegúrate de que "prueba.mp3" esté en la misma carpeta)
+    music.play().catch(e => console.log("El navegador bloqueó el audio temporalmente"));
 
     const origins = ['bottom','top','left','right'];
 
-    // MUCHÍSIMOS MÁS TALLOS jjjjjjjjjjjjjjjjjj
-    // MUCHÍSIMOS MÁS TALLOS jjjjjjjjjjjjjjjjjj
-    // MUCHÍSIMOS MÁS TALLOS jjjjjjjjjjjjjjjjjj
-    // MUCHÍSIMOS MÁS TALLOS jjjjjjjjjjjjjjjjjj
-  
-    for(let i=0;i<50;i++){
+    // CORRECCIÓN: Bajamos la cantidad de 150 a 45. 
+    // Seguirán viéndose muchísimas flores, pero sin que se trabe la computadora/celular.
+    for(let i=0;i<45;i++){
       setTimeout(()=>{
         const x = Math.random()*window.innerWidth;
         const origin = origins[Math.floor(Math.random()*origins.length)];
         const scale = Math.random()*0.8 + 0.6;
         createPlant(x, origin, scale);
-      }, i*80);
+      }, i*120); // Aumenté un poquito el tiempo entre flor y flor (120ms) para darle respiro al navegador
     }
 
     let pos = 0;
@@ -323,7 +172,6 @@
           popup.style.display = 'block';
           typeLetter(letterContent);
 
-          // FUEGOS ARTIFICIALES AL ABRIR CARTA
           for(let i=0;i<6;i++){
             setTimeout(()=>{
               createFirework(Math.random()*window.innerWidth, Math.random()*window.innerHeight/2);
@@ -334,9 +182,6 @@
       }
     },100);
 
-    setInterval(createFalling,180);
+    // Hacemos que la caída de cosas sea un poquito menos frecuente para ayudar al rendimiento
+    setInterval(createFalling, 300); 
   }
-</script>
-
-</body>
-</html>
